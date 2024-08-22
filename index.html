@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+    <style>
+        /* Basic dark theme styling */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+        }
+        .gallery-item {
+            background: #1e1e1e;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            max-width: 300px;
+            position: relative;
+        }
+        .gallery-image {
+            width: 100%;
+            height: 155px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery-image2 {
+            width: 40%;
+            height: 120px;
+            margin-left: 30%;
+            border-radius: 30px;
+            border: 1px solid white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery-image:hover {
+            transform: scale(1.05);
+        }
+        .gallery-file {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #e0e0e0;
+        }
+        .gallery-file .gallery-icon {
+            margin-right: 10px;
+            border-radius: 50px;
+        }
+        .gallery-video {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .gallery-text-box {
+            background: #2a2a2a;
+            border-radius: 8px;
+            border: 1px solid white;
+            padding: 10px;
+            margin-top: 10px;
+            color: #e0e0e0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .overlay-content {
+            position: relative;
+        }
+        .overlay-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+        .file-icon {
+            width: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+        .pdf-download {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Sanket Presents Gallery of UploadYoi</h1>
+    <div id="gallery"></div>
+
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script>
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCIsuaOPUEWCf1IyM5Uh88TCRlIoj3nSC4",
+  authDomain: "uploadyoio.firebaseapp.com",
+  databaseURL: "https://uploadyoio-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "uploadyoio",
+  storageBucket: "uploadyoio.appspot.com",
+  messagingSenderId: "476111061097",
+  appId: "1:476111061097:web:0ce058a0b5780d5304a2f8",
+  measurementId: "G-JK4RZYGVV9"
+};
+
+        firebase.initializeApp(firebaseConfig);
+
+        const storage = firebase.storage();
+        const database = firebase.database();
+
+        function fetchFiles() {
+            database.ref().once('value').then((snapshot) => {
+                const data = snapshot.val();
+                const gallery = document.getElementById('gallery');
+                gallery.innerHTML = ''; // Clear existing gallery items
+
+                // Iterate through different types of uploads
+                                ['file', 'image', 'text', 'youtube'].forEach((type) => {
+                    if (data[type]) {
+                        const items = data[type];
+                        for (const key in items) {
+                            const item = items[key];
+                            let htmlContent = '';
+
+                            if (type === 'image') {
+                                htmlContent = `
+                                    <div class="gallery-item">
+                                        <img src="${item.url}" alt="${item.name}" class="gallery-image" onclick="viewImage('${item.url}')" />
+                                        <div class="gallery-details">
+                                            <p>Name: ${item.name}</p>
+                                            <p>Type: ${item.type} | Extension: ${item.extension}</p>
+                       <p>Size: ${item.size}</p>
+                                            <p>Date: ${item.date}</p>
+                                        </div>
+                                    </div>
+                                `;
+                            } else if (type === 'file') {
+                                const commonImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8hRr_HwfHJPzDw11eTorBOxPzm9rigJh3Wzw8kPnz51Kqy90UmQ2VdiVO&s=10';
+                                htmlContent = `
+                                    <div class="gallery-item">
+                                    <a href="${item.url}" download="${item.name}">
+                                    <img src="${commonImage}" alt="${item.name}" class="gallery-image2" onclick="viewFile('${item.url}', '${item.name}', '${item.extension}')" />
+                                        </a>
+                                        <div class="gallery-details">
+                                            <p>Name: ${item.name}</p>
+                                            <p>Type: ${item.type} | Extension: ${item.extension}</p>
+                      
+                                            <p>Size: ${item.size}</p>
+                                            <p>Date: ${item.date}</p>
+                                        </div>
+                                    </div>
+                                `;
+                            } else if (type === 'text') {
+                                htmlContent = `
+                                    <div class="gallery-item">
+                                        <div class="gallery-text-box">
+                                            <p>${item.content}</p>
+                                        </div>
+                                        <div class="gallery-details">
+                                            <p>Name: ${item.name}</p>
+                                            <p>Type: ${item.type}</p>
+                                            <p>Date: ${item.date}</p>
+                                        </div>
+                                    </div>
+                                `;
+                            } else if (type === 'youtube') {
+                                const embedUrl = convertYouTubeLinkToEmbed(item.url);
+                                htmlContent = `
+                                    <div class="gallery-item">
+                                        <iframe src="${embedUrl}" class="gallery-video" allowfullscreen></iframe>
+                                        <div class="gallery-details">
+                                            <p>Name: ${item.name}</p>
+                                            <p>Type: ${item.type}</p>
+                                            <p>Date: ${item.date}</p>
+                                            <p>URL: <a href="${item.url}" target="_blank">${item.url}</a></p>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+
+                            gallery.innerHTML += htmlContent;
+                        }
+                    }
+                });
+            }).catch((error) => {
+                console.error("Error fetching files: ", error);
+            });
+        }
+
+        function convertYouTubeLinkToEmbed(link) {
+            const videoId = link.split('v=')[1];
+            const ampersandPosition = videoId.indexOf('&');
+            if (ampersandPosition !== -1) {
+                return `https://www.youtube.com/embed/${videoId.substring(0, ampersandPosition)}`;
+            }
+            return `https://www.youtube.com/embed/${videoId}`;
+        }
+
+        function viewImage(url) {
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay');
+            overlay.innerHTML = `
+                <div class="overlay-content">
+                    <span class="close" onclick="closeOverlay()">&times;</span>
+                    <img src="${url}" class="overlay-image" />
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        function closeOverlay() {
+          document.querySelector('.overlay').remove();
+        }
+        // Call fetchFiles function
+        fetchFiles();
+
+        // Add event listener to upload button
+        document.getElementById('upload-btn').addEventListener('click', () => {
+            const fileInput = document.getElementById('file-input');
+            const file = fileInput.files[0];
+            const fileType = file.type;
+            const fileName = file.name;
+            const fileExtension = fileName.split('.').pop();
+            const fileSize = file.size;
+            const fileDate = new Date().toLocaleString();
+
+            // Check if file is an image
+            if (fileType.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const imageData = event.target.result;
+                    const imageRef = storage.ref(`images/${fileName}`);
+                    imageRef.putString(imageData, 'data_url').then((snapshot) => {
+                        const imageUrl = snapshot.ref.getDownloadURL();
+                        database.ref('image').push({
+                            name: fileName,
+                            type: fileType,
+                            extension: fileExtension,
+                            size: fileSize,
+                            date: fileDate,
+                            url: imageUrl
+                        });
+                    });
+                };
+                reader.readAsDataURL(file);
+            } else {
+                const fileRef = storage.ref(`files/${fileName}`);
+                fileRef.put(file).then((snapshot) => {
+                    const fileUrl = snapshot.ref.getDownloadURL();
+                    database.ref('file').push({
+                        name: fileName,
+                        type: fileType,
+                        extension: fileExtension,
+                        size: fileSize,
+                        date: fileDate,
+                        url: fileUrl
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
