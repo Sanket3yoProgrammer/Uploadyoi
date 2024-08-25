@@ -44,7 +44,7 @@
         .gallery-image2 {
             width: 45%;
             height: 120px;
-            margin-left: 30%;
+            margin-left: 29%;
             border-radius: 30px;
             border: 1px solid white;
             cursor: pointer;
@@ -114,12 +114,44 @@
             flex-direction: column;
             align-items: center;
         }
+
+        /* Debugging styles - only for testing */
+#backToTop {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #10c95a; /* Set a bright color for visibility */
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    line-height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10000; /* Ensure it is on top of everything */
+    opacity: 1; /* Make sure it's visible */
+    display: block; /* Ensure it's displayed */
+}
+
+#backToTop:hover {
+    transform: scale(1.1);
+    background-color: #00bfa5; /* Slightly darker shade on hover */
+}
+
+#backToTop.show {
+    opacity: 1;
+    transform: scale(1);
+}
     </style>
 </head>
 <body>
     <h1>Sanket Presents </h1>
     <h>The Gallery-UploadYoi</h1>
     <div id="gallery"></div>
+    <div id="backToTop" onclick="scrollToTop()" style="transform: rotate(-90deg);">➩</div></div>
+    
 <footer>
         <h5 style="display: flex; justify-content: center; font-weight: bold;">
             Made with fun by - <a style="color: #3dffc5; font-weight: underline;" href="https://github.com/sanket3yoprogrammer">@Sanket3yoprogrammer</a>
@@ -321,6 +353,25 @@ function convertYouTubeLinkToEmbed(link) {
                 });
             }
         });
+
+
+        // Show or hide the Back to Top button based on scroll position
+window.onscroll = function() {
+    var backToTopButton = document.getElementById("backToTop");
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        backToTopButton.classList.add("show");
+    } else {
+        backToTopButton.classList.remove("show");
+    }
+};
+
+// Scroll smoothly to the top of the page when the Back to Top button is clicked
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
     </script>
 </body>
 </html>
