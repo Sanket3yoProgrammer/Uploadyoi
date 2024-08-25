@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery</title>
+    <title>TheGallery-UploadYoi</title>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/566120/assets/web/assets/mobirise-icons2/mobirise2.css?rnd=1721066501208">
+<link rel="stylesheet" href="https://r.mobirisesite.com/464416/assets/bootstrap/css/bootstrap.min.css?rnd=1716546147537">
+    
     <style>
         /* Basic dark theme styling */
         body {
@@ -13,6 +16,9 @@
             margin: 0;
             padding: 0;
         }
+        .highlight {
+    background-color: #ffff00;
+}
         h1 {
             text-align: center;
             margin-top: 20px;
@@ -149,9 +155,31 @@
 <body>
     <h1>Sanket Presents </h1>
     <h1>The Gallery-UploadYoi</h1>
+    
+    <div style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsJtSbSF0LBYfAC6VY3rMzSjxGoU0XLViVvHlFrSvNybSqSDvaI-l9cDE&s=10'); /* Replace with the path to your image */
+            background-size: cover; /* Ensures the image covers the div */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-attachment: fixed;">
+      
+<div style="background-color: white; height: 3px;">
+      
+    </div>
+    <div class="navbar-buttons mbr-section-btn">
+  <a  class="btn btn-primary display-4" href="#" id="search-btn" style="font-size: 18px; border-radius: 50px; display: flex; justify-content: center; margin: 10px; padding-top: 10px; padding-bottom: 10px; background-color: #10de9d;">
+    <span style="">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+  <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+</svg>
+    </span>Search
+  </a>
+  <div style="display: flex; justify-content: center; margin: 10px; font-size: 18px; border-radius: 50px;">
+    <input class="navbar-buttons mbr-section-btn btn btn-primary display-7 btn btn-primary display-4 " type="search" id="search-input" placeholder="Search..." style="display: none; font-size: 18px; background-color: #10de9d; border-radius: 50px; padding-top: 10px; padding-bottom: 10px;">
+  </div>
+	</div>
     <div id="gallery"></div>
     <div id="backToTop" onclick="scrollToTop()" style="transform: rotate(-90deg);">➩</div>
-    
+        </div>
 <footer>
         <h5 style="display: flex; justify-content: center; font-weight: bold;">
             Made with fun by - <a style="color: #3dffc5; font-weight: underline;" href="https://github.com/sanket3yoprogrammer">@Sanket3yoprogrammer</a>
@@ -373,9 +401,81 @@ function scrollToTop() {
     });
 }
     </script>
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search-input');
+    let highlightedElements = [];
+    let currentHighlightIndex = -1;
+
+    searchBtn.addEventListener('click', (event) => {
+      event.preventDefault();  // Prevent default link behavior
+      searchInput.style.display = 'block';
+      searchBtn.style.display = 'none';
+      searchInput.focus();  // Set focus to the search input
+    });
+
+    searchInput.addEventListener('keyup', (e) => {
+      if (e.key === "Enter") {
+        scrollToNextMatch();
+      } else {
+        highlightSearchTerm();
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      searchInput.style.display = 'none';
+      searchBtn.style.display = 'block';
+      removeHighlights();
+      highlightedElements = [];
+      currentHighlightIndex = -1;
+    });
+
+    function highlightSearchTerm() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      removeHighlights();
+
+      if (searchTerm) {
+        const elements = document.body.getElementsByTagName('*');
+        Array.from(elements).forEach(element => {
+          highlightText(element, searchTerm);
+        });
+        highlightedElements = document.querySelectorAll('.highlight');
+        currentHighlightIndex = -1;
+      }
+    }
+
+    function removeHighlights() {
+      document.querySelectorAll('.highlight').forEach((element) => {
+        element.outerHTML = element.innerHTML;
+      });
+    }
+
+    function highlightText(element, searchTerm) {
+      if (element.children.length === 0) { // Skip elements with child nodes
+        const innerHTML = element.innerHTML;
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        const newHTML = innerHTML.replace(regex, '<span class="highlight">$1</span>');
+        element.innerHTML = newHTML;
+      }
+    }
+
+    function scrollToNextMatch() {
+      if (highlightedElements.length === 0) return;
+
+      currentHighlightIndex++;
+      if (currentHighlightIndex >= highlightedElements.length) {
+        currentHighlightIndex = 0; // Wrap around to the first match
+      }
+
+      const element = highlightedElements[currentHighlightIndex];
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.focus();
+    }
+  });
+</script>
 </body>
 </html>
-
 
 
 
