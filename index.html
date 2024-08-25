@@ -143,83 +143,93 @@ const firebaseConfig = {
         const database = firebase.database();
 
         function fetchFiles() {
-            database.ref().once('value').then((snapshot) => {
-                const data = snapshot.val();
-                const gallery = document.getElementById('gallery');
-                gallery.innerHTML = ''; // Clear existing gallery items
+    const gallery = document.getElementById('gallery');
+    gallery.innerHTML = ''; // Clear existing gallery items
 
-                // Iterate through different types of uploads
-                                ['file', 'image', 'text', 'youtube'].forEach((type) => {
-                    if (data[type]) {
-                        const items = data[type];
-                        for (const key in items) {
-                            const item = items[key];
-                            let htmlContent = '';
+    // Create an array to store all items regardless of type
+    let allItems = [];
 
-                            if (type === 'image') {
-                                htmlContent = `
-                                    <div class="gallery-item">
-                                        <img src="${item.url}" alt="${item.name}" class="gallery-image" onclick="viewImage('${item.url}')" />
-                                        <div class="gallery-details">
-                                            <p>Name: ${item.name}</p>
-                                            <p>Type: ${item.type} | Extension: ${item.extension}</p>
-                       <p>Size: ${item.size}</p>
-                                            <p>Date: ${item.date}</p>
-                                        </div>
-                                    </div>
-                                `;
-                            } else if (type === 'file') {
-                                const commonImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8hRr_HwfHJPzDw11eTorBOxPzm9rigJh3Wzw8kPnz51Kqy90UmQ2VdiVO&s=10';
-                                htmlContent = `
-                                    <div class="gallery-item">
-                                    <a href="${item.url}" download="${item.name}">
-                                    <img src="${commonImage}" alt="${item.name}" class="gallery-image2" onclick="viewFile('${item.url}', '${item.name}', '${item.extension}')" />
-                                        </a>
-                                        <div class="gallery-details">
-                                            <p>Name: ${item.name}</p>
-                                            <p>Type: ${item.type} | Extension: ${item.extension}</p>
-                      
-                                            <p>Size: ${item.size}</p>
-                                            <p>Date: ${item.date}</p>
-                                        </div>
-                                    </div>
-                                `;
-                            } else if (type === 'text') {
-                                htmlContent = `
-                                    <div class="gallery-item">
-                                        <div class="gallery-text-box">
-                                            <p>${item.content}</p>
-                                        </div>
-                                        <div class="gallery-details">
-                                            <p>Name: ${item.name}</p>
-                                            <p>Type: ${item.type}</p>
-                                            <p>Date: ${item.date}</p>
-                                        </div>
-                                    </div>
-                                `;
-                            } else if (type === 'youtube') {
-                        const embedUrl = convertYouTubeLinkToEmbed(item.url);
-                        console.log('YouTube Embed URL:', embedUrl);  // Add this to debug
-                        htmlContent = `
-                            <div class="gallery-item">
-                                <iframe src="${embedUrl}" class="gallery-video" allowfullscreen></iframe>
-                                <div class="gallery-details">
-                                    <p>Name: ${item.name}</p>
-                                    <p>Type: ${item.type}</p>
-                                    <p>Date: ${item.date}</p>
-                                </div>
-                            </div>
-                        `;
-                    }
-
-                    gallery.innerHTML += htmlContent;
+    // Set up a listener for each type of upload
+    ['file', 'image', 'text', 'youtube'].forEach((type) => {
+        database.ref(type).on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                for (const key in data) {
+                    const item = data[key];
+                    item.type = type; // Add the type to the item for later use
+                    allItems.push(item);
                 }
             }
+
+            // Once all items are fetched, sort them by date
+            allItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Now, render the sorted items
+            gallery.innerHTML = ''; // Clear the gallery before re-rendering
+            allItems.forEach((item) => {
+                let htmlContent = '';
+
+                if (item.type === 'image') {
+                    htmlContent = `
+                        <div class="gallery-item">
+                            <img src="${item.url}" alt="${item.name}" class="gallery-image" onclick="viewImage('${item.url}')" />
+                            <div class="gallery-details">
+                                <p>Name: ${item.name}</p>
+                                <p>Type: ${item.type} | Extension: ${item.extension}</p>
+                                <p>Size: ${item.size}</p>
+                                <p>Date: ${item.date}</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (item.type === 'file') {
+                    const commonImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8hRr_HwfHJPzDw11eTorBOxPzm9rigJh3Wzw8kPnz51Kqy90UmQ2VdiVO&s=10';
+                    htmlContent = `
+                        <div class="gallery-item">
+                            <a href="${item.url}" download="${item.name}">
+                                <img src="${commonImage}" alt="${item.name}" class="gallery-image2" onclick="viewFile('${item.url}', '${item.name}', '${item.extension}')" />
+                            </a>
+                            <div class="gallery-details">
+                                <p>Name: ${item.name}</p>
+                                <p>Type: ${item.type} | Extension: ${item.extension}</p>
+                                <p>Size: ${item.size}</p>
+                                <p>Date: ${item.date}</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (item.type === 'text') {
+                    htmlContent = `
+                        <div class="gallery-item">
+                            <div class="gallery-text-box">
+                                <p>${item.content}</p>
+                            </div>
+                            <div class="gallery-details">
+                                <p>Name: ${item.name}</p>
+                                <p>Type: ${item.type}</p>
+                                <p>Date: ${item.date}</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (item.type === 'youtube') {
+                    const embedUrl = convertYouTubeLinkToEmbed(item.url);
+                    htmlContent = `
+                        <div class="gallery-item">
+                            <iframe src="${embedUrl}" class="gallery-video" allowfullscreen></iframe>
+                            <div class="gallery-details">
+                                <p>Name: ${item.name}</p>
+                                <p>Type: ${item.type}</p>
+                                <p>Date: ${item.date}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                gallery.innerHTML += htmlContent;
+            });
+        }, (error) => {
+            console.error("Error fetching files: ", error);
         });
-    }).catch((error) => {
-        console.error("Error fetching files: ", error);
     });
-}
+        }
 function convertYouTubeLinkToEmbed(link) {
     let videoId;
 
