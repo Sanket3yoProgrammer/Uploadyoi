@@ -222,7 +222,11 @@ const firebaseConfig = {
 }
 function convertYouTubeLinkToEmbed(link) {
     let videoId;
-    if (link.includes('youtu.be')) {
+
+    // Handle YouTube Shorts URLs
+    if (link.includes('youtube.com/shorts/')) {
+        videoId = link.split('shorts/')[1].split('?')[0];
+    } else if (link.includes('youtu.be/')) {
         videoId = link.split('youtu.be/')[1];
     } else if (link.includes('v=')) {
         videoId = link.split('v=')[1];
@@ -233,9 +237,9 @@ function convertYouTubeLinkToEmbed(link) {
     } else {
         // Handle other possible YouTube URL formats here
     }
+
     return `https://www.youtube.com/embed/${videoId}`;
 }
-        
 
         function viewImage(url) {
             const overlay = document.createElement('div');
