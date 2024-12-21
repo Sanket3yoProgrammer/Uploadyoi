@@ -474,189 +474,9 @@
         }
     }
 
-
-   .gradient-patch {
-    position: fixed; /* Keep them fixed */
-    border-radius: 50%;
-    opacity: 0.5; /* Mid opacity */
-    pointer-events: none; /* Prevent interaction */
-    animation: moveAnimation 5s ease-in-out infinite; /* Add animation */
-}
-
-@keyframes moveAnimation {
-    0% {
-        transform: translate(0, 0);
-    }
-    25% {
-        transform: translate(10px, -10px); /* Move to the right and up */
-    }
-    50% {
-        transform: translate(-10px, 10px); /* Move to the left and down */
-    }
-    75% {
-        transform: translate(10px, 10px); /* Move to the right and down */
-    }
-    100% {
-        transform: translate(0, 0); /* Back to original position */
-    }
-}
-
-.gradient-patch-1 {
-    background: linear-gradient(135deg, rgba(0, 255, 128, 0.5), rgba(0, 128, 255, 0.5));
-    width: 300px;
-    height: 300px;
-    top: 20%;
-    left: 10%;
-    filter: blur(50px);
-}
-
-.gradient-patch-2 {
-    background: linear-gradient(135deg, rgba(128, 0, 255, 0.5), rgba(0, 0, 255, 0.5));
-    width: 400px;
-    height: 400px;
-    top: 60%;
-    right: 15%;
-    filter: blur(50px);
-}
-
-.gradient-patch-3 {
-    background: linear-gradient(135deg, rgba(255, 0, 128, 0.5), rgba(0, 255, 255, 0.5));
-    width: 350px;
-    height: 350px;
-    bottom: 10%;
-    left: 30%;
-    filter: blur(50px);
-}
-
-.gradient-patch-4 {
-    background: linear-gradient(135deg, rgba(255, 165, 0, 0.5), rgba(255, 0, 255, 0.5));
-    width: 250px;
-    height: 250px;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    filter: blur(50px);
-}
-
-.gradient-patch-5 {
-    background: linear-gradient(135deg, rgba(0, 255, 255, 0.5), rgba(0, 0, 128, 0.5));
-    width: 300px;
-    height: 300px;
-    bottom: 20%;
-    right: 10%;
-    filter: blur(50px);
-}
-
-.gradient-patch-6 {
-    background: linear-gradient(135deg, rgba(255, 0, 0, 0.5), rgba(255, 165, 0, 0.5));
-    width: 300px;
-    height: 300px;
-    top: 10%;
-    left: 20%;
-    filter: blur(50px);
-}
-
-.gradient-patch-7 {
-    background: linear-gradient(135deg, rgba(0, 255, 0, 0.5), rgba(0, 0, 255, 0.5));
-    width: 400px;
-    height: 400px;
-    top: 30%;
-    right: 10%;
-    filter: blur(50px);
-}
-
-.gradient-patch-8 {
-    background: linear-gradient(135deg, rgba(255, 0, 255, 0.5), rgba(0, 255, 255, 0.5));
-    width: 350px;
-    height: 350px;
-    bottom: 20%;
-    left: 25%;
-    filter: blur(50px);
-}
-
-.gradient-patch-9 {
-    background: linear-gradient(135deg, rgba(0, 128, 128, 0.5), rgba(128, 0, 128, 0.5));
-    width: 250px;
-    height: 250px;
-    top: 50%;
-    left: 40%;
-    filter: blur(50px);
-}
-
-.gradient-patch-10 {
-    background: linear-gradient(135deg, rgba(128, 128, 0, 0.5), rgba(0, 128, 128, 0.5));
-    width: 300px;
-    height: 300px;
-    bottom: 10%;
-    right: 20%;
-    filter: blur(50px);
-}
-
-.gradient-patch-11 {
-    background: linear-gradient(135deg, rgba(255, 20, 147, 0.5), rgba(30, 144, 255, 0.5));
-    width: 350px;
-    height: 350px;
-    top: 20%;
-    right: 30%;
-    filter: blur(50px);
-}
-
-.gradient-patch-12 {
-    background: linear-gradient(135deg, rgba(255, 105, 180, 0.5), rgba(255, 255, 0, 0.5));
-    width: 400px;
-    height: 400px;
-    bottom: 30%;
-    left: 15%;
-    filter: blur(50px);
-}
-
-.gradient-patch-13 {
-    background: linear-gradient(135deg, rgba(0, 255, 127, 0.5), rgba(255, 0, 255, 0.5));
-    width: 300px;
-    height: 300px;
-    top: 40%;
-    left: 5%;
-    filter: blur(50px);
-}
-
-.gradient-patch-14 {
-    background: linear-gradient(135deg, rgba(0, 0, 255, 0.5), rgba(255, 0, 0, 0.5));
-    width: 250px;
-    height: 250px;
-    bottom: 15%;
-    right: 25%;
-    filter: blur(50px);
-}
-
-.gradient-patch-15 {
-    background: linear-gradient(135deg, rgba(255, 140, 0, 0.5), rgba(0, 255, 140, 0.5));
-    width: 350px;
-    height: 350px;
-    top: 60%;
-    left: 30%;
-    filter: blur(50px);
-}
-
-@keyframes gradient-animation {
-    0% {
-        background-position: 0% 50%;
-    }
-    100% {
-        background-position: 100% 50%;
-    }
-}
     </style>
 </head>
 <body>
-	<div class="gradient-patch gradient-patch-1"></div>
-    <div class="gradient-patch gradient-patch-2"></div>
-    <div class="gradient-patch gradient-patch-3"></div>
-    <div class="gradient-patch gradient-patch-4"></div>
-    <div class="gradient-patch gradient-patch-5"></div>
-    <div class="gradient-patch gradient-patch-6"></div>
-    <div class="gradient-patch gradient-patch-13"></div>
-    <div class="gradient-patch gradient-patch-14"></div>
-    <div class="gradient-patch gradient-patch-15"></div>
     <h1 style="color: #0ac973; font-family: 'Qwitcher Grypen', cursive;
   font-weight: 600;
   font-style: normal; font-size: 35px;">Sanket Presents </h1>
@@ -668,9 +488,6 @@
     <div style="background-color: darkgrey; height: 1px; margin-top: 20px;">
     </div>
     
-<div class="gradient-patch gradient-patch-1"></div>
-    <div class="gradient-patch gradient-patch-2"></div>
-    <div class="gradient-patch gradient-patch-3"></div>
 
     <div class="navbar-buttons mbr-section-btn">
   <a class="btn btn-search" href="#" id="search-btn">
@@ -688,21 +505,12 @@
 	    <div style="background-color: white; height: 3px; margin-top: 15px;">
       
 	    </div>
-	<div class="apple" style="background: linear-gradient(135deg, #ff1cf4, #f8f7fd, #223ec7, #0654f0); /* Dark black blue shade background */
-            background-image: radial-gradient(circle, #d111eb 20%, transparent 20%), 
-                             radial-gradient(circle, #0e68ce 20%, transparent 20%), 
-                             radial-gradient(circle, #1b4acc 20%, transparent 20%),
-                             radial-gradient(circle, rgba(255, 0, 255, 0.3), transparent 20%), /* New shape */
-                             radial-gradient(circle, rgba(30, 238, 238, 0.3), transparent 20%); /* New shape */
-            background-position: 0 0, 10px 10px, 20px 20px, 30px 30px, 40px 40px; /* Adjusted positions */
-            background-size: 40px 40px, 40px 40px, 40px 40px, 60px 60px, 60px 60px; /* Adjusted sizes */
-            background-repeat: no-repeat;
+	<div class="apple" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsJtSbSF0LBYfAC6VY3rMzSjxGoU0XLViVvHlFrSvNybSqSDvaI-l9cDE&s=10'); /* Replace with the path to your image */
+            background-size: cover; /* Ensures the image covers the div */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
             background-attachment: fixed;">
-	    <div class="gradient-patch gradient-patch-1"></div>
-    <div class="gradient-patch gradient-patch-2"></div>
-    <div class="gradient-patch gradient-patch-13"></div>
-    <div class="gradient-patch gradient-patch-14"></div>
-    <div class="gradient-patch gradient-patch-15"></div>
+	    
       
     <div id="gallery"></div>
     <!-- style="transform: rotate(-90deg);" -->
@@ -711,15 +519,6 @@
     </div>
         
 <footer style="">
-	<div class="gradient-patch gradient-patch-1"></div>
-    <div class="gradient-patch gradient-patch-2"></div>
-    <div class="gradient-patch gradient-patch-3"></div>
-    <div class="gradient-patch gradient-patch-4"></div>
-    <div class="gradient-patch gradient-patch-5"></div>
-    <div class="gradient-patch gradient-patch-6"></div>
-    <div class="gradient-patch gradient-patch-13"></div>
-    <div class="gradient-patch gradient-patch-14"></div>
-    <div class="gradient-patch gradient-patch-15"></div>
         <h6 style="display: flex; justify-content: center; font-weight: bold; margin-top: 40px;">
             Made with fun by - <a style="color: #3dffc5; font-weight: underline;" href="https://github.com/sanket3yoprogrammer">@Sanket3yoprogrammer</a><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub" style="width: 30px; height: 30px; margin-right: 5px; margin-left: 5px; margin-top: -5px; border-radius: 50%; background-color: white;">
         </h6>
@@ -1155,21 +954,6 @@ function closeTextModal() {
 function closeYouTubeModal() {
     document.getElementById('youtubeModal').style.display = "none"; // Hide the YouTube modal
 }
-</script>
-	<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const gradientPatches = document.querySelectorAll('.gradient-patch');
-
-        gradientPatches.forEach(patch => {
-            // Randomize animation duration between 3s and 8s
-            const duration = Math.random() * (8 - 3) + 3;
-            patch.style.animationDuration = `${duration}s`;
-
-            // Randomize animation delay
-            const delay = Math.random() * 5; // Random delay up to 5 seconds
-            patch.style.animationDelay = `${delay}s`;
-        });
-    });
 </script>
 </body>
 </html>
