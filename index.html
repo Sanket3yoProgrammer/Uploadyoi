@@ -887,14 +887,21 @@ function toggleDetails(button) {
 }
 
 function closeModal() {
-    document.getElementById('infoModal').style.display = "none"; // Hide the modal
+    document.getElementById('infoModal').style.display = "none"; // Hide the info modal
 }
 
 // Close the modal when clicking outside of it
 window.onclick = function(event) {
-    const modal = document.getElementById('infoModal');
-    if (event.target === modal) {
+    const infoModal = document.getElementById('infoModal');
+    const textModal = document.getElementById('textModal');
+    const youtubeModal = document.getElementById('youtubeModal');
+
+    if (event.target === infoModal) {
         closeModal();
+    } else if (event.target === textModal) {
+        closeTextModal();
+    } else if (event.target === youtubeModal) {
+        closeYouTubeModal();
     }
 };
 </script>
