@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://i.postimg.cc/054VkgYJ/Picsart-24-08-30-07-12-02-778.jpg" type="image/x-icon">
+    <meta name="description" content="GalleryYoi - Create, organize, and showcase stunning image galleries with a modern, mobile-responsive design.">
+    <title>The Gallery Yoi</title>
+    <link rel="stylesheet" href="https://r.mobirisesite.com/566120/assets/web/assets/mobirise-icons2/mobirise2.css?rnd=1721066501208">
+<link rel="stylesheet" href="https://r.mobirisesite.com/464416/assets/bootstrap/css/bootstrap.min.css?rnd=1716546147537">
+   <style>
+@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Qwitcher+Grypen:wght@400;700&display=swap');
+        /* Basic dark theme styling */
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+	   .apple{
+	font-family: Arial, sans-serif;
+            
+	   }
+        .highlight {
+    background-color: #ffff00;
+}
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 20px;
+        }
+        .gallery-item {
+            flex: 1 1 auto; /* Allow items to grow and shrink */
+            max-width: calc(33.333% - 10px); /* Adjust based on desired number of items per row */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+            border-radius: 10px;
+            background: rgba(0, 156, 99, 1);
+            border: 3px solid white;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+        .gallery-image {
+            width: 100%;
+            height: 155px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery-image2 {
+            width: 130px;
+            height: 120px;
+            margin-left: 29%;
+            border-radius: 30px;
+            border: 1px solid white;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            margin: 0 auto;
+	    display: block;
+        }
+        .gallery-image:hover {
+            transform: scale(1.05);
+        }
+        .gallery-file {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: #e0e0e0;
+        }
+        .gallery-file .gallery-icon {
+            margin-right: 10px;
+            border-radius: 50px;
+        }
+        .gallery-video {
+            width: 100%;
+            height: 200px;
+            border-radius: 8px;
+        }
+        .gallery-text-box {
+            background: rgba(0, 120, 82, 1);
+            border-radius: 8px;
+            border: 1px solid white;
+            padding: 10px;
+            margin-top: 10px;
+            color: #e0e0e0;
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .overlay-content {
+            position: relative;
+        }
+        .overlay-image {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+        }
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #e0e0e0;
+            cursor: pointer;
+        }
+        .file-icon {
+            width: 100px;
+            margin: 0 auto;
+            display: block;
+        }
+        .pdf-download {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Debugging styles - only for testing */
+#backToTop {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    background-color: #10c95a; /* Set a bright color for visibility */
+    color: white;
+    border-radius: 50%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    line-height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10000; /* Ensure it is on top of everything */
+    opacity: 1; /* Make sure it's visible */
+    display: block; /* Ensure it's displayed */
+}
+
+#backToTop:hover {
+    transform: scale(1.1);
+    background-color: #00bfa5; /* Slightly darker shade on hover */
+}
+
+#backToTop.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.info-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #10de9d;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.info-button:hover {
+    background-color: #00bfa5; /* Darker shade on hover */
+}
+
+.details {
+    display: none; /* Initially hidden */
+    background: rgba(0, 120, 82, 1);
+    border-radius: 8px;
+    border: 1px solid white;
+    padding: 10px;
+    margin-top: 10px;
+    color: #e0e0e0;
+    animation: fadeIn 0.5s; /* Animation for showing details */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.info-title {
+    font-size: 1.5em; /* Larger font size for the title */
+    font-weight: bold; /* Bold text for emphasis */
+    color: #10de9d; /* Color to match the button */
+    margin-bottom: 10px; /* Space below the title */
+}
+
+.details p {
+    font-size: 1em; /* Standard font size */
+    margin: 5px 0; /* Space between paragraphs */
+    color: #e0e0e0; /* Text color */
+    line-height: 1.5; /* Improved line height for readability */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Subtle separator */
+    padding-bottom: 5px; /* Space below each paragraph */
+}
+
+/* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1001; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Dark background with opacity */
+}
+
+.modal-content {
+    background-color: rgba(30, 30, 30, 0.9); /* Darker background for the modal */
+    margin: 10% auto; /* Center the modal */
+    padding: 20px;
+    border-radius: 10px; /* Rounded corners */
+    border: 1px solid #888; /* Optional border */
+    width: 80%; /* Could be more or less, depending on screen size */
+    color: #e0e0e0; /* Text color for better readability */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #10de9d; /* Change color on hover for better visibility */
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-details p {
+    margin: 10px 0; /* Space between paragraphs */
+    line-height: 1.5; /* Improved line height for readability */
+}
+
+.info-filename {
+    font-size: 1.2em; /* Slightly larger font size */
+    font-weight: bold; /* Bold text for emphasis */
+    color: #10de9d; /* Color to match the theme */
+    margin-top: 15px; /* Space above the filename */
+    text-align: center; /* Center the filename */
+}
+
+.file-name {
+    font-size: 1em; /* Standard font size */
+    color: #e0e0e0; /* Text color */
+    text-align: center; /* Center the filename */
+    margin-top: 5px; /* Space above the filename */
+    font-weight: bold; /* Bold text for emphasis */
+    display: -webkit-box; /* Use flexbox for multi-line */
+    -webkit-box-orient: vertical; /* Set the box orientation */
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    overflow: hidden; /* Hide overflow */
+    text-overflow: ellipsis; /* Show ellipsis for overflow */
+}
+
+.gradient-divider {
+    height: 4px; /* Height of the divider */
+    margin: 10px 0; /* Space around the divider */
+    background: linear-gradient(90deg, #00c3ff, #08dfc2); /* Gradient colors */
+    animation: gradient-animation 3s ease infinite; /* Animation */
+}
+
+@keyframes gradient-animation {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+.modal-content {
+    padding: 20px;
+    border-radius: 10px;
+    background-color: rgba(30, 30, 30, 0.9);
+    color: #e0e0e0;
+}
+
+.modal-details {
+    margin-top: 10px;
+}
+
+.info-title {
+    font-size: 1.5em; /* Larger font size for the title */
+    font-weight: bold; /* Bold text for emphasis */
+    color: #10de9d; /* Color to match the button */
+    margin-bottom: 10px; /* Space below the title */
+}
+
+.info-content {
+    font-size: 1em; /* Standard font size */
+    line-height: 1.5; /* Improved line height for readability */
+    padding: 10px; /* Padding for better spacing */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: rgba(50, 50, 50, 0.8); /* Background color for the content */
+    margin-bottom: 10px; /* Space below the content */
+}
+
+.youtube-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px; /* Adds some margin around the container */
+    border: 2px solid #10de9d; /* Cool border color */
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Ensures the iframe fits within the container */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Adds a shadow for depth */
+}
+
+.youtube-embed {
+    width: 100%; /* Full width of the container */
+    height: 350px; /* Set a height for the iframe */
+    border: none; /* Removes default border */
+    transition: transform 0.3s ease; /* Smooth scaling effect */
+}
+
+.youtube-embed:hover {
+    transform: scale(1.001); /* Slightly scales up on hover */
+}
+
+.truncated-text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3; /* Show only 3 lines */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis (...) */
+    color: #e0e0e0; /* Text color */
+}
+
+.truncated-text-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2; /* Show only 3 lines */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis (...) */
+    color: #e0e0e0; /* Text color */
+}
+
+.btn-search {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #00bfa5, #00c3ff);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 183, 165, 0.5);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-search:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 183, 165, 0.7);
+}
+
+.btn-search .search-icon {
+    margin-right: 10px;
+    transition: transform 0.3s ease;
+}
+
+.btn-search:hover .search-icon {
+    transform: rotate(360deg);
+}
+
+.btn-search-input {
+    padding: 10px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-search-input:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 255, 229, 0.5);
+    background-color: #00c3ff;
+    margin-top: -20px;
+}
+
+.navbar-buttons {
+    display: flex;
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    margin-top: 20px;
+}
+    </style>
+</head>
+<body>
+    <h1 style="color: #0ac973; font-family: 'Qwitcher Grypen', cursive;
+  font-weight: 600;
+  font-style: normal; font-size: 35px;">Sanket Presents </h1>
+    <div style="text-align: center; font-family: 'Black Ops One', system-ui; font-weight: 400;
+  font-style: normal; font-size: 60px;"> 
+    Gallery Yoi 
+    </div>
+    <div style="background-color: darkgrey; height: 1px; margin-top: 20px;">
+    </div>
+    
+
+    <div class="navbar-buttons mbr-section-btn">
+  <a class="btn btn-search" href="#" id="search-btn">
+    <span class="search-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+      </svg>
+    </span>
+    Search
+  </a>
+  <div style="display: flex; justify-content: center; margin: 10px; font-size: 18px; border-radius: 50px;">
+    <input class="navbar-buttons mbr-section-btn btn btn-primary display-7 btn-search-input" type="search" id="search-input" placeholder="Search......" style="display: none;">
+  </div>
+	</div>
+	    <div style="background-color: white; height: 3px; margin-top: 15px;">
+      
+	    </div>
+	<div class="apple" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsJtSbSF0LBYfAC6VY3rMzSjxGoU0XLViVvHlFrSvNybSqSDvaI-l9cDE&s=10'); /* Replace with the path to your image */
+            background-size: cover; /* Ensures the image covers the div */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            background-attachment: fixed;">
+	    
+      
+    <div id="gallery"></div>
+    <div id="backToTop" onclick="scrollToTop()" style="transform: rotate(-90deg);">➩</div>
+        
+<footer style="">
+        <h6 style="display: flex; justify-content: center; font-weight: bold; margin-top: 40px;">
+            Made with fun by - <a style="color: #3dffc5; font-weight: underline;" href="https://github.com/sanket3yoprogrammer">@Sanket3yoprogrammer</a>
+        </h6>
+<svg id="wave" style="transform:rotate(0deg); transition: 0.3s" viewBox="0 0 1440 460" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(5.755, 188.878, 0, 0.8)" offset="0%"></stop><stop stop-color="rgba(103.143, 255, 184.261, 0.53)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 0px); opacity:1" fill="url(#sw-gradient-0)" d="M0,230L34.3,199.3C68.6,169,137,107,206,69C274.3,31,343,15,411,69C480,123,549,245,617,268.3C685.7,291,754,215,823,222.3C891.4,230,960,322,1029,345C1097.1,368,1166,322,1234,299C1302.9,276,1371,276,1440,260.7C1508.6,245,1577,215,1646,176.3C1714.3,138,1783,92,1851,76.7C1920,61,1989,77,2057,115C2125.7,153,2194,215,2263,222.3C2331.4,230,2400,184,2469,199.3C2537.1,215,2606,291,2674,291.3C2742.9,291,2811,215,2880,199.3C2948.6,184,3017,230,3086,222.3C3154.3,215,3223,153,3291,122.7C3360,92,3429,92,3497,130.3C3565.7,169,3634,245,3703,291.3C3771.4,337,3840,353,3909,322C3977.1,291,4046,215,4114,222.3C4182.9,230,4251,322,4320,345C4388.6,368,4457,322,4526,299C4594.3,276,4663,276,4731,299C4800,322,4869,368,4903,391L4937.1,414L4937.1,460L4902.9,460C4868.6,460,4800,460,4731,460C4662.9,460,4594,460,4526,460C4457.1,460,4389,460,4320,460C4251.4,460,4183,460,4114,460C4045.7,460,3977,460,3909,460C3840,460,3771,460,3703,460C3634.3,460,3566,460,3497,460C3428.6,460,3360,460,3291,460C3222.9,460,3154,460,3086,460C3017.1,460,2949,460,2880,460C2811.4,460,2743,460,2674,460C2605.7,460,2537,460,2469,460C2400,460,2331,460,2263,460C2194.3,460,2126,460,2057,460C1988.6,460,1920,460,1851,460C1782.9,460,1714,460,1646,460C1577.1,460,1509,460,1440,460C1371.4,460,1303,460,1234,460C1165.7,460,1097,460,1029,460C960,460,891,460,823,460C754.3,460,686,460,617,460C548.6,460,480,460,411,460C342.9,460,274,460,206,460C137.1,460,69,460,34,460L0,460Z"></path><defs><linearGradient id="sw-gradient-1" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(0, 168.61, 255, 1)" offset="0%"></stop><stop stop-color="rgba(0, 255, 174.369, 0.8)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 50px); opacity:0.9" fill="url(#sw-gradient-1)" d="M0,322L34.3,314.3C68.6,307,137,291,206,260.7C274.3,230,343,184,411,153.3C480,123,549,107,617,145.7C685.7,184,754,276,823,322C891.4,368,960,368,1029,375.7C1097.1,383,1166,399,1234,337.3C1302.9,276,1371,138,1440,84.3C1508.6,31,1577,61,1646,92C1714.3,123,1783,153,1851,138C1920,123,1989,61,2057,99.7C2125.7,138,2194,276,2263,283.7C2331.4,291,2400,169,2469,145.7C2537.1,123,2606,199,2674,245.3C2742.9,291,2811,307,2880,276C2948.6,245,3017,169,3086,138C3154.3,107,3223,123,3291,115C3360,107,3429,77,3497,107.3C3565.7,138,3634,230,3703,230C3771.4,230,3840,138,3909,130.3C3977.1,123,4046,199,4114,253C4182.9,307,4251,337,4320,360.3C4388.6,383,4457,399,4526,406.3C4594.3,414,4663,414,4731,368C4800,322,4869,230,4903,184L4937.1,138L4937.1,460L4902.9,460C4868.6,460,4800,460,4731,460C4662.9,460,4594,460,4526,460C4457.1,460,4389,460,4320,460C4251.4,460,4183,460,4114,460C4045.7,460,3977,460,3909,460C3840,460,3771,460,3703,460C3634.3,460,3566,460,3497,460C3428.6,460,3360,460,3291,460C3222.9,460,3154,460,3086,460C3017.1,460,2949,460,2880,460C2811.4,460,2743,460,2674,460C2605.7,460,2537,460,2469,460C2400,460,2331,460,2263,460C2194.3,460,2126,460,2057,460C1988.6,460,1920,460,1851,460C1782.9,460,1714,460,1646,460C1577.1,460,1509,460,1440,460C1371.4,460,1303,460,1234,460C1165.7,460,1097,460,1029,460C960,460,891,460,823,460C754.3,460,686,460,617,460C548.6,460,480,460,411,460C342.9,460,274,460,206,460C137.1,460,69,460,34,460L0,460Z"></path><defs><linearGradient id="sw-gradient-2" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(0, 134.054, 255, 1)" offset="0%"></stop><stop stop-color="rgba(0, 255, 180.129, 0.81)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 100px); opacity:0.8" fill="url(#sw-gradient-2)" d="M0,184L34.3,214.7C68.6,245,137,307,206,283.7C274.3,261,343,153,411,161C480,169,549,291,617,337.3C685.7,383,754,353,823,314.3C891.4,276,960,230,1029,237.7C1097.1,245,1166,307,1234,299C1302.9,291,1371,215,1440,176.3C1508.6,138,1577,138,1646,153.3C1714.3,169,1783,199,1851,176.3C1920,153,1989,77,2057,69C2125.7,61,2194,123,2263,138C2331.4,153,2400,123,2469,92C2537.1,61,2606,31,2674,84.3C2742.9,138,2811,276,2880,337.3C2948.6,399,3017,383,3086,383.3C3154.3,383,3223,399,3291,406.3C3360,414,3429,414,3497,360.3C3565.7,307,3634,199,3703,199.3C3771.4,199,3840,307,3909,329.7C3977.1,353,4046,291,4114,230C4182.9,169,4251,107,4320,76.7C4388.6,46,4457,46,4526,76.7C4594.3,107,4663,169,4731,199.3C4800,230,4869,230,4903,230L4937.1,230L4937.1,460L4902.9,460C4868.6,460,4800,460,4731,460C4662.9,460,4594,460,4526,460C4457.1,460,4389,460,4320,460C4251.4,460,4183,460,4114,460C4045.7,460,3977,460,3909,460C3840,460,3771,460,3703,460C3634.3,460,3566,460,3497,460C3428.6,460,3360,460,3291,460C3222.9,460,3154,460,3086,460C3017.1,460,2949,460,2880,460C2811.4,460,2743,460,2674,460C2605.7,460,2537,460,2469,460C2400,460,2331,460,2263,460C2194.3,460,2126,460,2057,460C1988.6,460,1920,460,1851,460C1782.9,460,1714,460,1646,460C1577.1,460,1509,460,1440,460C1371.4,460,1303,460,1234,460C1165.7,460,1097,460,1029,460C960,460,891,460,823,460C754.3,460,686,460,617,460C548.6,460,480,460,411,460C342.9,460,274,460,206,460C137.1,460,69,460,34,460L0,460Z"></path><defs><linearGradient id="sw-gradient-3" x1="0" x2="0" y1="1" y2="0"><stop stop-color="rgba(62.483, 0, 255, 1)" offset="0%"></stop><stop stop-color="rgba(0, 255, 28.227, 0.77)" offset="100%"></stop></linearGradient></defs><path style="transform:translate(0, 150px); opacity:0.7" fill="url(#sw-gradient-3)" d="M0,0L34.3,23C68.6,46,137,92,206,122.7C274.3,153,343,169,411,184C480,199,549,215,617,222.3C685.7,230,754,230,823,260.7C891.4,291,960,353,1029,360.3C1097.1,368,1166,322,1234,253C1302.9,184,1371,92,1440,115C1508.6,138,1577,276,1646,283.7C1714.3,291,1783,169,1851,145.7C1920,123,1989,199,2057,253C2125.7,307,2194,337,2263,291.3C2331.4,245,2400,123,2469,92C2537.1,61,2606,123,2674,153.3C2742.9,184,2811,184,2880,168.7C2948.6,153,3017,123,3086,138C3154.3,153,3223,215,3291,207C3360,199,3429,123,3497,92C3565.7,61,3634,77,3703,69C3771.4,61,3840,31,3909,69C3977.1,107,4046,215,4114,260.7C4182.9,307,4251,291,4320,253C4388.6,215,4457,153,4526,176.3C4594.3,199,4663,307,4731,360.3C4800,414,4869,414,4903,414L4937.1,414L4937.1,460L4902.9,460C4868.6,460,4800,460,4731,460C4662.9,460,4594,460,4526,460C4457.1,460,4389,460,4320,460C4251.4,460,4183,460,4114,460C4045.7,460,3977,460,3909,460C3840,460,3771,460,3703,460C3634.3,460,3566,460,3497,460C3428.6,460,3360,460,3291,460C3222.9,460,3154,460,3086,460C3017.1,460,2949,460,2880,460C2811.4,460,2743,460,2674,460C2605.7,460,2537,460,2469,460C2400,460,2331,460,2263,460C2194.3,460,2126,460,2057,460C1988.6,460,1920,460,1851,460C1782.9,460,1714,460,1646,460C1577.1,460,1509,460,1440,460C1371.4,460,1303,460,1234,460C1165.7,460,1097,460,1029,460C960,460,891,460,823,460C754.3,460,686,460,617,460C548.6,460,480,460,411,460C342.9,460,274,460,206,460C137.1,460,69,460,34,460L0,460Z"></path></svg>
+    
+</footer>
+	</div>
+    <!-- Firebase Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script>
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyCIsuaOPUEWCf1IyM5Uh88TCRlIoj3nSC4",
+  authDomain: "uploadyoio.firebaseapp.com",
+  databaseURL: "https://uploadyoio-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "uploadyoio",
+  storageBucket: "uploadyoio.appspot.com",
+  messagingSenderId: "476111061097",
+  appId: "1:476111061097:web:0ce058a0b5780d5304a2f8",
+  measurementId: "G-JK4RZYGVV9"
+};
+
+        firebase.initializeApp(firebaseConfig);
+
+        const storage = firebase.storage();
+        const database = firebase.database();
+
+        function fetchFiles() {
+    const gallery = document.getElementById('gallery');
+    gallery.innerHTML = ''; // Clear existing gallery items
+
+    // Create an array to store all items regardless of type
+    let allItems = [];
+
+    // Set up a listener for each type of upload
+    ['file', 'image', 'text', 'youtube'].forEach((type) => {
+        database.ref(type).on('value', (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                for (const key in data) {
+                    const item = data[key];
+                    item.type = type; // Add the type to the item for later use
+                    allItems.push(item);
+                }
+            }
+
+            // Once all items are fetched, sort them by date
+            allItems.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            // Now, render the sorted items
+            gallery.innerHTML = ''; // Clear the gallery before re-rendering
+            allItems.forEach((item) => {
+                let htmlContent = '';
+
+                if (item.type === 'image') {
+                    htmlContent = `
+                        <div class="gallery-item">
+                            <img src="${item.url}" alt="${item.name}" class="gallery-image" onclick="viewImage('${item.url}')" />
+                            <div class="gradient-divider"></div> <!-- Gradient divider -->
+                            <p class="file-name truncated-text-2">${item.name}</p>
+                            <button class="info-button" onclick="toggleDetails(this)">
+                                <span class="dot">•</span>
+                                <span class="dot">•</span>
+                                <span class="dot">•</span>
+                            </button>
+                            <div class="details" style="display: none;" data-type="${item.type}">
+                                <p class="info-title">${item.name}</p>
+                                <p>Type: ${item.type} | Extension: ${item.extension}</p>
+                                <p>Size: ${item.size}</p>
+                                <p>Date: ${item.date}</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (item.type === 'file') {
+                    const commonImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ8hRr_HwfHJPzDw11eTorBOxPzm9rigJh3Wzw8kPnz51Kqy90UmQ2VdiVO&s=10';
+                    htmlContent = `
+                        <div class="gallery-item">
+                            <a href="${item.url}" download="${item.name}">
+                                <img src="${commonImage}" alt="${item.name}" class="gallery-image2" />
+                            </a>
+                            <div class="gradient-divider"></div> <!-- Gradient divider -->
+                            <p class="file-name truncated-text-2">${item.name}</p>
+                            <button class="info-button" onclick="toggleDetails(this)">
+                                <span class="dot">•</span>
+                                <span class="dot">•</span>
+                                <span class="dot">•</span>
+                            </button>
+                            <div class="details" style="display: none;" data-type="${item.type}">
+                                <p class="info-title">${item.name}</p>
+                                <p>Type: ${item.type} | Extension: ${item.extension}</p>
+                                <p>Size: ${item.size}</p>
+                                <p>Date: ${item.date}</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (item.type === 'text') {
+                    htmlContent = `
+                        <div class="gallery-item">
+                            <div class="gallery-text-box">
+                                <p class="truncated-text">${item.content}</p>
+                            </div>
+                            <div class="gradient-divider"></div> <!-- Gradient divider -->
+                            <p class="file-name truncated-text-2">${item.name}</p>
+                            <button class="info-button" onclick="toggleDetails(this)">
+                                <span class="dot">•</span>
+                                <span class="dot">•</span>
+                                <span class="dot">•</span>
+                            </button>
+                            <div class="details" style="display: none;" data-type="${item.type}">
+                                <p class="info-title">${item.name}</p>
+                                <p>${item.content}</p>
+                                <p>Date: ${item.date}</p>
+                            </div>
+                        </div>
+                    `;
+                } else if (item.type === 'youtube') {
+                    // <iframe src="${embedUrl}" class="gallery-video" allowfullscreen></iframe>
+                    const embedUrl = convertYouTubeLinkToEmbed(item.url);
+                    htmlContent = `
+                        <div class="gallery-item">
+                            
+                            <div class="youtube-container" style="height: 200px">
+                                <iframe src="${embedUrl}" allowfullscreen></iframe>
+                            </div>
+                            <div class="gradient-divider"></div> <!-- Gradient divider -->
+                            <p class="file-name truncated-text-2">${item.name}</p>
+                            <button class="info-button" onclick="toggleDetails(this)">
+                                <span class="dot">•</span>
+                                <span class="dot">•</span>
+                                <span class="dot">•</span>
+                            </button>
+                            <div class="details" style="display: none;" data-type="${item.type}" data-url="${item.url}">
+                                <p class="info-title">${item.name}</p>
+                                <p>Date: ${item.date}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                gallery.innerHTML += htmlContent;
+            });
+        }, (error) => {
+            console.error("Error fetching files: ", error);
+        });
+    });
+        }
+
+
+        function convertYouTubeLinkToEmbed(link) {
+            let videoId;
+
+            // Handle YouTube Shorts URLs
+            if (link.includes('youtube.com/shorts/')) {
+                videoId = link.split('shorts/')[1].split('?')[0];
+            } else if (link.includes('youtu.be/')) {
+                videoId = link.split('youtu.be/')[1];
+            } else if (link.includes('v=')) {
+                videoId = link.split('v=')[1];
+                const ampersandPosition = videoId.indexOf('&');
+                if (ampersandPosition !== -1) {
+                    videoId = videoId.substring(0, ampersandPosition);
+                }
+            } else if (link.includes('youtube.com/watch?v=')) {
+                videoId = link.split('watch?v=')[1];
+            } else if (link.includes('youtube.com/live/')) {
+                videoId = link.split('live/')[1].split('?')[0];
+            } else if (link.includes('youtube.com/')) {
+                // Handle other possible YouTube URL formats here
+                // Assuming the URL is in the format of https://youtube.com/abcehhkw
+                videoId = link.split('youtube.com/')[1];
+            }
+
+            return `https://www.youtube.com/embed/${videoId}`;
+        }
+
+        function viewImage(url) {
+            const overlay = document.createElement('div');
+            overlay.classList.add('overlay');
+            overlay.innerHTML = `
+                <div class="overlay-content">
+                    <span class="close" onclick="closeOverlay()">&times;</span>
+                    <img src="${url}" class="overlay-image" />
+                </div>
+            `;
+            document.body.appendChild(overlay);
+        }
+
+        function closeOverlay() {
+          document.querySelector('.overlay').remove();
+        }
+        // Call fetchFiles function
+        fetchFiles();
+
+        // Add event listener to upload button
+        document.getElementById('upload-btn').addEventListener('click', () => {
+            const fileInput = document.getElementById('file-input');
+            const file = fileInput.files[0];
+            const fileType = file.type;
+            const fileName = file.name;
+            const fileExtension = fileName.split('.').pop();
+            const fileSize = file.size;
+            const fileDate = new Date().toLocaleString();
+
+            // Check if file is an image
+            if (fileType.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const imageData = event.target.result;
+                    const imageRef = storage.ref(`images/${fileName}`);
+                    imageRef.putString(imageData, 'data_url').then((snapshot) => {
+                        const imageUrl = snapshot.ref.getDownloadURL();
+                        database.ref('image').push({
+                            name: fileName,
+                            type: fileType,
+                            extension: fileExtension,
+                            size: fileSize,
+                            date: fileDate,
+                            url: imageUrl
+                        });
+                    });
+                };
+                reader.readAsDataURL(file);
+            } else {
+                const fileRef = storage.ref(`files/${fileName}`);
+                fileRef.put(file).then((snapshot) => {
+                    const fileUrl = snapshot.ref.getDownloadURL();
+                    database.ref('file').push({
+                        name: fileName,
+                        type: fileType,
+                        extension: fileExtension,
+                        size: fileSize,
+                        date: fileDate,
+                        url: fileUrl
+                    });
+                });
+            }
+        });
+
+
+        // Show or hide the Back to Top button based on scroll position
+window.onscroll = function() {
+    var backToTopButton = document.getElementById("backToTop");
+    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+        backToTopButton.classList.add("show");
+    } else {
+        backToTopButton.classList.remove("show");
+    }
+};
+
+// Scroll smoothly to the top of the page when the Back to Top button is clicked
+function scrollToTop() {
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+}
+    </script>
+    <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const searchBtn = document.getElementById('search-btn');
+    const searchInput = document.getElementById('search-input');
+    let highlightedElements = [];
+    let currentHighlightIndex = -1;
+
+    searchBtn.addEventListener('click', (event) => {
+      event.preventDefault();  // Prevent default link behavior
+      searchInput.style.display = 'block';
+      searchBtn.style.display = 'none';
+      searchInput.focus();  // Set focus to the search input
+    });
+
+    searchInput.addEventListener('keyup', (e) => {
+      if (e.key === "Enter") {
+        scrollToNextMatch();
+      } else {
+        highlightSearchTerm();
+      }
+    });
+
+    searchInput.addEventListener('blur', () => {
+      searchInput.style.display = 'none';
+      searchBtn.style.display = 'block';
+      removeHighlights();
+      highlightedElements = [];
+      currentHighlightIndex = -1;
+    });
+
+    function highlightSearchTerm() {
+      const searchTerm = searchInput.value.trim().toLowerCase();
+      removeHighlights();
+
+      if (searchTerm) {
+        const elements = document.body.getElementsByTagName('*');
+        Array.from(elements).forEach(element => {
+          highlightText(element, searchTerm);
+        });
+        highlightedElements = document.querySelectorAll('.highlight');
+        currentHighlightIndex = -1;
+      }
+    }
+
+    function removeHighlights() {
+      document.querySelectorAll('.highlight').forEach((element) => {
+        element.outerHTML = element.innerHTML;
+      });
+    }
+
+    function highlightText(element, searchTerm) {
+      if (element.children.length === 0) { // Skip elements with child nodes
+        const innerHTML = element.innerHTML;
+        const regex = new RegExp(`(${searchTerm})`, 'gi');
+        const newHTML = innerHTML.replace(regex, '<span class="highlight">$1</span>');
+        element.innerHTML = newHTML;
+      }
+    }
+
+    function scrollToNextMatch() {
+      if (highlightedElements.length === 0) return;
+
+      currentHighlightIndex++;
+      if (currentHighlightIndex >= highlightedElements.length) {
+        currentHighlightIndex = 0; // Wrap around to the first match
+      }
+
+      const element = highlightedElements[currentHighlightIndex];
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.focus();
+    }
+  });
+</script>
+<script>
+function toggleDetails(button) {
+    const detailsDiv = button.nextElementSibling; // Get the details div
+    const modal = document.getElementById('infoModal');
+    const textModal = document.getElementById('textModal');
+    const youtubeModal = document.getElementById('youtubeModal');
+    
+    const itemType = detailsDiv.dataset.type; // Use the data attribute for type
+
+    // Populate modal with item details based on type
+    if (itemType === 'image' || itemType === 'file') {
+        modal.querySelector('.info-title').innerText = detailsDiv.querySelector('.info-title').innerText;
+        modal.querySelector('.info-type').innerText = `Type: ${detailsDiv.querySelector('p:nth-child(2)').innerText}`;
+        modal.querySelector('.info-size').innerText = detailsDiv.querySelector('p:nth-child(3)') ? `Size: ${detailsDiv.querySelector('p:nth-child(3)').innerText}` : ''; // Check if size exists
+        modal.querySelector('.info-date').innerText = `Date: ${detailsDiv.querySelector('p:nth-child(4)').innerText}`;
+        modal.style.display = "block"; // Show the modal
+    } else if (itemType === 'text') {
+        textModal.querySelector('.info-title').innerText = detailsDiv.querySelector('.info-title').innerText;
+        textModal.querySelector('.info-content').innerText = detailsDiv.querySelector('p:nth-child(2)').innerText; // Content is in the second paragraph
+        textModal.querySelector('.info-date').innerText = `Date: ${detailsDiv.querySelector('p:nth-child(3)').innerText}`;
+        textModal.style.display = "block"; // Show the text modal
+    } else if (itemType === 'youtube') {
+        youtubeModal.querySelector('.info-title').innerText = detailsDiv.querySelector('.info-title').innerText;
+        youtubeModal.querySelector('.info-type').innerText = `Type: YouTube`;
+        youtubeModal.querySelector('.info-date').innerText = `Date: ${detailsDiv.querySelector('p:nth-child(2)').innerText}`;
+        // youtubeModal.querySelector('.youtube-embed').src = detailsDiv.dataset.url; // Use the data-url attribute
+        const originalUrl = detailsDiv.dataset.url; // Get the original URL
+        const embedUrl = convertYouTubeLinkToEmbed(originalUrl); // Convert to embed URL
+        youtubeModal.querySelector('.youtube-embed').src = embedUrl; // Set the embed URL as the src
+        youtubeModal.querySelector('#youtube-url').href = detailsDiv.dataset.url; // Set the YouTube URL
+        youtubeModal.querySelector('#youtube-url').innerText = detailsDiv.dataset.url; // Set the link text
+        youtubeModal.style.display = "block"; // Show the YouTube modal
+    }
+}
+
+function closeModal() {
+    document.getElementById('infoModal').style.display = "none"; // Hide the modal
+}
+
+// Close the modal when clicking outside of it
+window.onclick = function(event) {
+    const modal = document.getElementById('infoModal');
+    if (event.target === modal) {
+        closeModal();
+    }
+};
+</script>
+<!-- Modal Structure -->
+<div id="infoModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <div class="modal-details">
+            <p class="info-title"></p>
+            <p class="info-type"></p>
+            <p class="info-size"></p>
+            <p class="info-date"></p>
+        </div>
+    </div>
+</div>
+
+<!-- New Modal Structure for Text -->
+<div id="textModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeTextModal()">&times;</span>
+        <div class="modal-details">
+            <p class="info-title"></p>
+            <p class="info-content"></p> <!-- Content for text files -->
+            <p class="info-date"></p>
+        </div>
+    </div>
+</div>
+
+<!-- New Modal Structure for YouTube -->
+<div id="youtubeModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeYouTubeModal()">&times;</span>
+        <div class="modal-details">
+            <p class="info-title"></p>
+            <p class="info-type"></p>
+            <p class="info-date"></p>
+            <a id="youtube-url" href="" target="_blank"></a> <!-- Added ID for the link -->
+            <div class="youtube-container">
+                <iframe class="youtube-embed" allowfullscreen controls></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function closeTextModal() {
+    document.getElementById('textModal').style.display = "none"; // Hide the text modal
+}
+
+function closeYouTubeModal() {
+    document.getElementById('youtubeModal').style.display = "none"; // Hide the YouTube modal
+}
+</script>
+</body>
+</html>
