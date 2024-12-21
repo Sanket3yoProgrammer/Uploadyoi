@@ -431,15 +431,59 @@
     justify-content: center; /* Center items vertically */
     margin-top: 20px;
 }
+
+.gallery-title {
+        position: relative; /* Position relative for absolute positioning of hover effect */
+        text-align: center;
+        font-family: 'Black Ops One', system-ui;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 60px;
+        color: white; /* Set text color to white */
+        text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 255, 255, 1); /* Neon glow effect */
+        transition: transform 0.3s ease;
+    }
+
+    .gallery-title:hover {
+        transform: scale(1.1) rotate(2deg);
+    }
+
+    .hover-effect {
+        position: absolute; /* Position absolutely within the title */
+        top: 7px; /* Position below the title */
+        left: 67%; /* Center horizontally */
+        transform: translate(-50%, 0); /* Center the element */
+        opacity: 0; /* Initially hidden */
+        transition: opacity 0.3s ease, transform 0.3s ease; /* Smooth transition */
+        font-size: 80px; /* Size of the animated element */
+        color: rgba(255, 255, 255, 0.8); /* Color of the animated element */
+        animation: sparkle 1.5s infinite alternate; /* Add sparkle animation */
+    }
+
+    .gallery-title:hover .hover-effect {
+        opacity: 1; /* Show on hover */
+        transform: translate(-50%, -20px) scale(1.5); /* Scale up and move up on hover */
+    }
+
+    @keyframes sparkle {
+        0% {
+            transform: translate(-50%, 0) scale(1);
+        }
+        100% {
+            transform: translate(-50%, -10px) scale(1.2); /* Sparkle effect */
+        }
+    }
+
     </style>
 </head>
 <body>
     <h1 style="color: #0ac973; font-family: 'Qwitcher Grypen', cursive;
   font-weight: 600;
   font-style: normal; font-size: 35px;">Sanket Presents </h1>
-    <div style="text-align: center; font-family: 'Black Ops One', system-ui; font-weight: 400;
+     <div class="gallery-title" style="text-align: center; font-family: 'Black Ops One', system-ui; font-weight: 400;
   font-style: normal; font-size: 60px;"> 
-    Gallery Yoi 
+    Gallery Yoi
+    <span class="hover-effect">✨</span> 
     </div>
     <div style="background-color: darkgrey; height: 1px; margin-top: 20px;">
     </div>
