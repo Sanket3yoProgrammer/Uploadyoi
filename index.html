@@ -24,7 +24,11 @@
             
 	   }
         .highlight {
-    background-color: #ffff00;
+    background-color: rgba(255, 215, 0, 0.7); /* Gold color */
+    border-radius: 5px; /* Rounded corners */
+    padding: 2px 4px; /* Padding for better visibility */
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.9); /* Glow effect */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
 }
         h1 {
             text-align: center;
@@ -401,10 +405,11 @@
 .btn-search .search-icon {
     margin-right: 10px;
     transition: transform 0.3s ease;
+    display: inline-block;
 }
 
 .btn-search:hover .search-icon {
-    transform: rotate(360deg);
+    animation: rotateSearch 0.6s ease;
 }
 
 .btn-search-input {
@@ -471,6 +476,54 @@
         }
         100% {
             transform: translate(-50%, -10px) scale(1.2); /* Sparkle effect */
+        }
+    }
+
+    .highlight:hover {
+        background-color: rgba(255, 215, 0, 1); /* Brighter on hover */
+        transform: scale(1.05); /* Slightly enlarge on hover */
+    }
+
+    .no-results {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.8);
+        padding: 20px 40px;
+        border-radius: 15px;
+        border: 2px solid #10de9d;
+        box-shadow: 0 0 20px rgba(16, 222, 157, 0.3);
+        text-align: center;
+        animation: fadeInOut 3s forwards;
+        z-index: 1000;
+    }
+
+    .no-results-icon {
+        font-size: 40px;
+        color: #10de9d;
+        margin-bottom: 10px;
+    }
+
+    .no-results-text {
+        color: #ffffff;
+        font-size: 18px;
+        margin: 0;
+    }
+
+    @keyframes fadeInOut {
+        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+        15% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        85% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+    }
+
+    @keyframes rotateSearch {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
         }
     }
 
@@ -804,6 +857,7 @@ function scrollToTop() {
       searchInput.style.display = 'none';
       searchBtn.style.display = 'block';
       removeHighlights();
+      removeNoResultsMessage();
       highlightedElements = [];
       currentHighlightIndex = -1;
     });
@@ -811,14 +865,20 @@ function scrollToTop() {
     function highlightSearchTerm() {
       const searchTerm = searchInput.value.trim().toLowerCase();
       removeHighlights();
+      removeNoResultsMessage();
 
       if (searchTerm) {
-        const elements = document.body.getElementsByTagName('*');
-        Array.from(elements).forEach(element => {
+        const fileNameElements = document.querySelectorAll('.file-name');
+        fileNameElements.forEach(element => {
           highlightText(element, searchTerm);
         });
         highlightedElements = document.querySelectorAll('.highlight');
         currentHighlightIndex = -1;
+
+        // Show no results message if no matches found
+        if (highlightedElements.length === 0) {
+            showNoResultsMessage(searchTerm);
+        }
       }
     }
 
@@ -953,6 +1013,34 @@ function closeTextModal() {
 
 function closeYouTubeModal() {
     document.getElementById('youtubeModal').style.display = "none"; // Hide the YouTube modal
+}
+</script>
+
+<script>
+function showNoResultsMessage(searchTerm) {
+    removeNoResultsMessage(); // Remove any existing message
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'no-results';
+    messageDiv.innerHTML = `
+        <div class="no-results-icon">🔍</div>
+        <p class="no-results-text">No matches found for "${searchTerm}"</p>
+        <p class="no-results-text" style="font-size: 14px; margin-top: 5px; color: #10de9d;">
+            Try different keywords or check your spelling
+        </p>
+    `;
+    document.body.appendChild(messageDiv);
+
+    // Remove the message after animation completes
+    setTimeout(() => {
+        removeNoResultsMessage();
+    }, 3000);
+}
+
+function removeNoResultsMessage() {
+    const existingMessage = document.querySelector('.no-results');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
 }
 </script>
 </body>
