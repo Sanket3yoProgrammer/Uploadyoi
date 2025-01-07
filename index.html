@@ -485,31 +485,70 @@
     }
 
     .no-results {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        background: rgba(0, 0, 0, 0.8);
-        padding: 20px 40px;
-        border-radius: 15px;
-        border: 2px solid #10de9d;
-        box-shadow: 0 0 20px rgba(16, 222, 157, 0.3);
-        text-align: center;
-        animation: fadeInOut 3s forwards;
-        z-index: 1000;
-    }
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px 40px;
+    border-radius: 15px;
+    border: 2px solid #10de9d;
+    box-shadow: 0 0 20px rgba(16, 222, 157, 0.3);
+    text-align: center;
+    animation: fadeInOut 3s forwards;
+    z-index: 1000;
+    width: 80%; /* Add this to control max width */
+    max-width: 400px; /* Add this to limit width on larger screens */
+}
 
+.no-results-icon {
+    font-size: 40px;
+    color: #10de9d;
+    margin-bottom: 10px;
+}
+
+.no-results-text {
+    color: #ffffff;
+    font-size: 18px;
+    margin: 0;
+    word-wrap: break-word; /* Add this to handle long words */
+}
+
+/* Add these media queries for mobile responsiveness */
+@media (max-width: 768px) {
+    .no-results {
+        width: 85%;
+        padding: 15px 20px;
+    }
+    
     .no-results-icon {
-        font-size: 40px;
-        color: #10de9d;
-        margin-bottom: 10px;
+        font-size: 32px;
     }
-
+    
     .no-results-text {
-        color: #ffffff;
-        font-size: 18px;
-        margin: 0;
+        font-size: 16px;
     }
+}
+
+@media (max-width: 480px) {
+    .no-results {
+        width: 90%;
+        padding: 12px 15px;
+    }
+    
+    .no-results-icon {
+        font-size: 28px;
+        margin-bottom: 8px;
+    }
+    
+    .no-results-text {
+        font-size: 14px;
+    }
+    
+    .no-results-text[style*="font-size: 14px"] {
+        font-size: 12px !important;
+    }
+}
 
     @keyframes fadeInOut {
         0% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
